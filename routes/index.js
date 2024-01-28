@@ -1,5 +1,5 @@
 import express from "express"
-import indexController from '../controller/index.js'
+import indexController from '../../controller/index.js'
 import roomRoutes from './room.js'
 
 let router = express.Router()

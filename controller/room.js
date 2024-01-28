@@ -1,4 +1,4 @@
-import { booking } from "../common/booking.js";
+import booking  from "../common/booking.js";
 
 let rooms = [
   {
@@ -70,7 +70,7 @@ let bookedRooms = (req, res) => {
         if (rooms[i].id === customer[j].id) {
           bookedRoom.push({
             Room_name: rooms[i].class,
-            Status: rooms[i].booked,
+            status: rooms[i].booked,
             Customer: customer[j],
           });
         }
@@ -79,9 +79,9 @@ let bookedRooms = (req, res) => {
     if (rooms[i].booked === false) {
       bookedRoom.push(rooms[i]);
     }
-    res.Status(200).send(bookedRoom);
+    res.status(200).send(bookedRoom);
   } catch (error) {
-    res.Status(500).send({
+    res.status(500).send({
       alert: "No rooms available",
     });
   }
@@ -99,14 +99,14 @@ let allCustomer = (req, res) => {
             Date: customer[y].date,
             ChcekIntime: customer[y].check_in,
             CheckOutTime: customer[y].check_out,
-            Booked_Status: rooms[i].booked,
+            Booked_status: rooms[i].booked,
           });
         }
       }
     }
-    res.Status(200).send(bookedRoom);
+    res.status(200).send(bookedRoom);
   } catch (error) {
-    res.Status(500).send({
+    res.status(500).send({
       alert: "Booking failed",
     });
   }
@@ -121,11 +121,11 @@ let createRoom = (req, res) => {
 
     rooms.push(req.body);
     console.log(req.body);
-    res.Status(200).send({
+    res.status(200).send({
       alert: "Room created succesfully",
     });
   } catch (error) {
-    res.Status(500).send({
+    res.status(500).send({
       alert: "Room creation failed",
     });
   }
@@ -138,16 +138,16 @@ let deleteRoom = (req, res) => {
     if (index !== -1) {
       console.log("enter room id again");
       rooms.splice(index, 1);
-      res.Status(200).send({
+      res.status(200).send({
         alert: "rooms deleted succesfully",
       });
     } else {
-      res.Status(400).send({
+      res.status(400).send({
         alert: "enter correct id",
       });
     }
   } catch (error) {
-    res.Status(500).send({
+    res.status(500).send({
       alert: "failed to delete",
     });
   }
@@ -176,16 +176,16 @@ let Booking = (req, res) => {
         Room_id: id,
       };
       customer.push(newCustomer);
-      res.Status(200).send({
+      res.status(200).send({
         alert: "room booked successfully",
       });
     } else if (rooms[index].booked === true) {
-      res.Status(500).send({
+      res.status(500).send({
         alert: "failed to book",
       });
     }
   } catch (error) {
-    res.Status(500).send({
+    res.status(500).send({
       alert: "Server down",
     });
   }
