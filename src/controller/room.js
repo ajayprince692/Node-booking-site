@@ -70,7 +70,6 @@ const createRoom = (req, res) => {
   }
 };
 
-//booked rooms and customer details
 const bookedRoom = (req, res) => {
   try {
     let bookedRoom = [];
@@ -139,7 +138,7 @@ const Booking = (req, res) => {
         endTime,
         roomId: roomId,
       };
-      customer.push(newCustomer); //room booking customer details collect
+      customer.push(newCustomer); 
       res.status(200).send({
         message: "Room Booking Successfully",
       });

@@ -1,8 +1,8 @@
 import express from 'express'
-import appRoutes from '../routes/index.js'
+import appRoutes from './routes/index.js'
 
 let app = express()
-let PORT =  process.env.PORT || 7999;
+let PORT = 7999;
 
 app.use(express.json())
 
