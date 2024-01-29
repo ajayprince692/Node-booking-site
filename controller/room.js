@@ -1,200 +1,186 @@
-import {findIndex}  from "../common/booking.js";
+import { findIndex } from "../common/booking.js";
 
-let rooms = [
+const customer = [
   {
-    id: 1,
-    class: "Buisness class",
-    booked: true,
-    rent_per_day: 10000,
-  },
-  {
-    id: 2,
-    class: "Meeting Hall",
-    booked: true,
-    rent_per_day: 20000,
-  },
-  {
-    id: 3,
-    class: "Ac room",
-    booked: true,
-    rent_per_day: 3000,
-  },
-  {
-    id: 4,
-    class: "Non Ac rooms",
-    booked: false,
-    rent_per_day: 2000,
-  },
-];
-
-let customer = [
-  {
-    id: 1,
-    customer_id: 1,
+    roomId: 1,
+    customerId: 1,
     name: "Ajay",
-    date: "29/1/2024 - 2/2/2024",
-    check_in: "10.00 AM",
-    check_out: "10.00 PM",
+    date: "17/01/2024",
+    startTime: "09.00 AM",
+    endTime: "10.00 PM",
   },
   {
-    id: 2,
-    customer_id: 2,
+    roomId: 2,
+    customerId: 2,
     name: "Tony Stark",
-    date: "30/1/2024 - 4/2/2024",
-    check_in: "10.00 AM",
-    check_out: "10.00 PM",
+    date: "15/01/2024",
+    startTime: "08.00 AM",
+    endTime: "08.00 PM",
   },
   {
-    id: 3,
-    customer_id: 3,
-    name: "Jack Sparrow",
-    date: "30/1/2024 - 1/2/2024",
-    check_in: "10.00 AM",
-    check_out: "10.00 PM",
-  },
-  {
-    id: 4,
-    customer_id: 4,
-    name: "Natasha",
-    date: "29/1/2024 - 4/2/2024",
-    check_in: "10.00 AM",
-    check_out: "10.00 PM",
+    roomId: 3,
+    customerId: 3,
+    name: "Brock Lesnar",
+    date: "14/01/2024",
+    startTime: "9.30 AM",
+    endTime: "10.00 PM",
   },
 ];
 
-let bookedRooms = (req, res) => {
-  try {
-    let bookedRoom = [];
-    for (let i = 0; i < rooms.length; i++) {
-      for (let j = 0; j < customer.length; j++) {
-        if (rooms[i].id === customer[j].id) {
-          bookedRoom.push({
-            Room_name: rooms[i].class,
-            Booked: rooms[i].booked,
-            Customer: customer[j],
-          });
-        }
-      }
-    }
-    if (rooms[i].booked === false) {
-      bookedRoom.push(rooms[i]);
-    }
-    res.status(200).send(bookedRoom);
-  } catch (error) {
-    res.status(500).send({
-      alert: "No rooms available",
-    });
-  }
-};
+const room = [
+  {
+    roomId: 1,
+    roomType: "Ac/3 Bed",
+    bookStatus: true,
+    pricePerHour: 1500,
+  },
+  {
+    roomId: 2,
+    roomType: "Non-Ac/2 Bed",
+    bookStatus: true,
+    pricePerHour: 1000,
+  },
+  {
+    roomId: 3,
+    roomType: "Ac/3 Bed",
+    bookStatus: true,
+    pricePerHour: 1500,
+  },
+  {
+    roomId: 4,
+    roomType: "Ac/3 Bed0",
+    bookStatus: false,
+    pricePerHour: 1500,
+  },
+];
 
-let allCustomer = (req, res) => {
+const createRoom = (req, res) => {
   try {
-    let bookedRoom = [];
-    for (let i = 0; i < rooms.length; i++) {
-      for (let j = 0; j < customer.length; j++) {
-        if (rooms[i].id === customer[j].id) {
-          bookedRoom.push({
-            Customer: customer[j].name,
-            Room_type: rooms[i].class,
-            Date: customer[j].date,
-            ChcekIntime: customer[j].check_in,
-            CheckOutTime: customer[j].check_out,
-            Booked_status: rooms[i].booked,
-          });
-        }
-      }
-    }
-    res.status(200).send(bookedRoom);
-  } catch (error) {
-    res.status(500).send({
-      alert: "Booking failed",
-    });
-  }
-};
-
-let createRoom = (req, res) => {
-  try {
-    let id = rooms.length ? rooms[rooms.length - 1].id + 1 : 1;
-    req.body.id = id;
-    req.body.class = `class-${id}`;
-    req.body.booked = false;
-
-    rooms.push(req.body);
-    console.log(req.body);
+    const id = room.length ? room[room.length - 1].roomId + 1 : 1;
+    req.body.roomId = id;
+    req.body.roomStatus = false;
+    room.push(req.body);
     res.status(200).send({
-      alert: "Room created succesfully",
+      message: "Room created successfully",
     });
   } catch (error) {
     res.status(500).send({
-      alert: "Room creation failed",
+      message: "Internal server Error",
     });
   }
 };
 
-let deleteRoom = (req, res) => {
+//booked rooms and customer details
+const bookedRoom = (req, res) => {
   try {
-    let { id } = req.params;
-    let index = findIndex(rooms, id);
-    if (index !== -1) {
-      console.log("enter room id again");
-      rooms.splice(index, 1);
+    let bookedRoom = [];
+
+    for (let i = 0; i < customer.length; i++) {
+      for (let j = 0; j < room.length; j++) {
+        if (customer[i].roomId === room[j].roomId) {
+          bookedRoom.push({
+            roomType: room[j].roomType,
+            roomStatus: room[j].bookStatus,
+            customer: customer[i],
+          });
+        }
+      }
+    }
+    res.status(200).send(bookedRoom);
+  } catch (error) {
+    res.status(500).send({
+      message: "Internal server Error",
+    });
+  }
+};
+const allCustomerData = (req, res) => {
+  try {
+    let allcustomer = [];
+    for (let i = 0; i < customer.length; i++) {
+      for (let j = 0; j < room.length; j++) {
+        if (customer[i].roomId === room[j].roomId) {
+          allcustomer.push({
+            CustomerName: customer[i].name,
+            Room_Type: room[j].roomType,
+            Date: customer[i].date,
+            startTime: customer[i].startTime,
+            endTime: customer[i].endTime,
+          });
+        }
+      }
+    }
+    res.status(200).send(allcustomer);
+  } catch (error) {
+    res.status(500).send({
+      message: "Internal server Error",
+    });
+  }
+};
+//Booking function
+const Booking = (req, res) => {
+  try {
+    const { id } = req.params;
+    const roomId = +id;
+    const index = findIndex(room, id);
+    const temp = { ...room[index] };
+    temp.bookStatus = true;
+
+    if (index !== -1 && room[index].bookStatus == false) {
+      room.splice(index, 1, temp); // Room status changing
+      const { name, date, startTime, endTime } = req.body;
+      const id = customer.length
+        ? customer[customer.length - 1].customerId + 1
+        : 1;
+      const newCustomer = {
+        customerId: id,
+        name,
+        date,
+        startTime,
+        endTime,
+        roomId: roomId,
+      };
+      customer.push(newCustomer); //room booking customer details collect
       res.status(200).send({
-        alert: "rooms deleted succesfully",
+        message: "Room Booking Successfully",
+      });
+    } else if (room[index].bookStatus == true) {
+      res.status(500).send({
+        messag: "This Room is already booking",
+      });
+    }
+  } catch (error) {
+    res.status(500).send({
+      message: "Internal Server Error",
+    });
+  }
+};
+
+//Deleting by id
+const deleteById = (req, res) => {
+  try {
+    const { id } = req.params;
+    const index = findIndex(room, id);
+    if (index !== -1) {
+      room.splice(index, 1);
+      res.status(200).send({
+        message: "Deleted Successfully",
       });
     } else {
       res.status(400).send({
-        alert: "enter correct id",
+        message: "Invalid Room Id",
       });
     }
   } catch (error) {
     res.status(500).send({
-      alert: "failed to delete",
+      message: "Internal Server Error",
     });
   }
 };
 
-let Booking = (req, res) => {
-  try {
-    let { id } = req.params;
-    let room_id = +id;
-    let index = findIndex(rooms, id);
-    let temp = { ...rooms[index] };
-    temp.booked = true;
-
-    if (index !== -1 && rooms[index].booked == false) {
-      rooms.splice(index, 1, temp);
-      let { name, date, check_in, check_out } = req.body;
-      let id = customer.length
-        ? customer[customer.length - 1].customer_id + 1
-        : 1;
-      let newCustomer = {
-        Customer_id: id,
-        name,
-        date,
-        check_in,
-        check_out,
-        Room_id: id,
-      };
-      customer.push(newCustomer);
-      res.status(200).send({
-        alert: "room booked successfully",
-      });
-    } else if (rooms[index].booked === true) {
-      res.status(500).send({
-        alert: "failed to book",
-      });
-    }
-  } catch (error) {
-    res.status(500).send({
-      alert: "Server down",
-    });
-  }
+export default {
+  bookedRoom,
+  createRoom,
+  allCustomerData,
+  Booking,
+  deleteById,
 };
-
-export default{
-    bookedRooms,
-    allCustomer,
-    createRoom,
-    deleteRoom,
-    Booking
-}
