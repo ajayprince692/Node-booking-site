@@ -2,7 +2,7 @@ import express from 'express'
 import appRoutes from '../routes/index.js'
 
 let app = express()
-let PORT =  process.env.PORT || 8000;
+let PORT =  process.env.PORT || 7999;
 
 app.use(express.json())
 

@@ -1,4 +1,4 @@
-import booking  from "../common/booking.js";
+import {findIndex}  from "../common/booking.js";
 
 let rooms = [
   {
@@ -70,7 +70,7 @@ let bookedRooms = (req, res) => {
         if (rooms[i].id === customer[j].id) {
           bookedRoom.push({
             Room_name: rooms[i].class,
-            status: rooms[i].booked,
+            Booked: rooms[i].booked,
             Customer: customer[j],
           });
         }
@@ -94,11 +94,11 @@ let allCustomer = (req, res) => {
       for (let j = 0; j < customer.length; j++) {
         if (rooms[i].id === customer[j].id) {
           bookedRoom.push({
-            Customer: customer[y].name,
+            Customer: customer[j].name,
             Room_type: rooms[i].class,
-            Date: customer[y].date,
-            ChcekIntime: customer[y].check_in,
-            CheckOutTime: customer[y].check_out,
+            Date: customer[j].date,
+            ChcekIntime: customer[j].check_in,
+            CheckOutTime: customer[j].check_out,
             Booked_status: rooms[i].booked,
           });
         }
@@ -134,7 +134,7 @@ let createRoom = (req, res) => {
 let deleteRoom = (req, res) => {
   try {
     let { id } = req.params;
-    let index = booking(rooms, id);
+    let index = findIndex(rooms, id);
     if (index !== -1) {
       console.log("enter room id again");
       rooms.splice(index, 1);
@@ -157,7 +157,7 @@ let Booking = (req, res) => {
   try {
     let { id } = req.params;
     let room_id = +id;
-    let index = booking(rooms, id);
+    let index = findIndex(rooms, id);
     let temp = { ...rooms[index] };
     temp.booked = true;
 
@@ -168,7 +168,7 @@ let Booking = (req, res) => {
         ? customer[customer.length - 1].customer_id + 1
         : 1;
       let newCustomer = {
-        Customer_id: customer_id,
+        Customer_id: id,
         name,
         date,
         check_in,

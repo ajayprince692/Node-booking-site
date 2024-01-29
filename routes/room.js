@@ -6,7 +6,7 @@ let router = express.Router()
 router.get('/',roomController.bookedRooms)
 router.get('/customer',roomController.allCustomer)
 router.post('/createRoom',roomController.createRoom)
-router.post('/:id',roomController.deleteRoom)
+router.delete('/:id',roomController.deleteRoom)
 router.put('/:id',roomController.Booking)
 
 export default router
