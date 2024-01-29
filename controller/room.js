@@ -30,25 +30,25 @@ const customer = [
 const room = [
   {
     roomId: 1,
-    roomType: "Ac/3 Bed",
+    roomType: "Buisness class",
     bookStatus: true,
     pricePerHour: 1500,
   },
   {
     roomId: 2,
-    roomType: "Non-Ac/2 Bed",
+    roomType: "Party hall",
     bookStatus: true,
     pricePerHour: 1000,
   },
   {
     roomId: 3,
-    roomType: "Ac/3 Bed",
+    roomType: "Non Ac",
     bookStatus: true,
     pricePerHour: 1500,
   },
   {
     roomId: 4,
-    roomType: "Ac/3 Bed0",
+    roomType: "Ac",
     bookStatus: false,
     pricePerHour: 1500,
   },
